@@ -158,7 +158,8 @@ private:
     int topShadowColor, botShadowColor, icon, swapButtons;
     int noEdit, ofsX, ofsY, useFocus, button3Popup, numPvs, n1, n2, numDsps;
     static const int NUMPVS = 4;
-    static const int maxDsps = 24;
+    //static const int maxDsps = 24;        Not enough for some pcds screens
+    static const int maxDsps = 34;
     expStringClass sourceExpString[NUMPVS];
     expStringClass destPvExpString[NUMPVS];
     expStringClass displayFileName[maxDsps];
