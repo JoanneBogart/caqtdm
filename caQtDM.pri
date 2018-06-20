@@ -731,19 +731,20 @@ caQtDM_xdl2ui{
         C_QMAKESPEC = $$QMAKESPEC
         DEFINES += BUILDARCH=\\\"$$replace(C_QMAKESPEC, \\\\, /)\\\"
 	unix:!macx {
-                message("adl2ui configuration unix!macx")
+                message("edl2ui configuration unix!macx")
 		OBJECTS_DIR = obj
 		DESTDIR = $(CAQTDM_COLLECT)
+                
 	}
 
         macx {
-                message("adl2ui configuration macx")
+                message("edl2ui configuration macx")
 		OBJECTS_DIR = obj
 		DESTDIR = $(CAQTDM_COLLECT)
         }
 
         win32 {
-                message("adl2ui configuration win32")
+                message("edl2ui configuration win32")
                 win32-msvc* {
                         CONFIG += Define_Build_OutputDir
                 }
