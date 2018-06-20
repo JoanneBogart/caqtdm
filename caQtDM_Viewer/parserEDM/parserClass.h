@@ -15,7 +15,7 @@ enum classType {activeLine, activeRectangle, activeCircle, activeArc ,
                 xyGraph, activePip, activeXText, activeXTextDsp, TextUpdate, TextEntry, Byte, // Zai added three items
                 activeMeter, activeBar, activeMessageBox,
                 activeMotifSlider, activeButton, activeMenuButton, activeRadioButton, activeChoiceButton, // Zai added one item
-                activeMessageButton, activeExitButton, relatedDisplay, shellCmdButton, activeGroup,
+                activeMessageButton, activeExitButton, relatedDisplay, shellCmdButton, activeGroup, activePngImage,
                unknown};
 
 struct RGB {
