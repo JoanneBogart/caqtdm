@@ -33,7 +33,8 @@ static char *nullCondEnumStr[3] = {"nullEqCtl","nullEq0","disabled"};
 static int nullCondEnum[3] = {0,1,2};
 
 static int formatTypeDefault = 0;
-static char *formatTypeEnumStr[7] = {"default","float","gfloat","exponential","decimal","hex","string"};
+static char *formatTypeEnumStr[7] = {"default","float","gfloat","exponential",
+                                     "decimal","hex","string"};
 static int formatTypeEnum[7] = {0,1,2,3,4,5,6};
 
 static int fileCompFullPath = 0;
@@ -332,7 +333,8 @@ void parserClass::incLine (void)
   fileLineNumber++;
 }
 
-void parserClass::addVisibilityCalc(myParserEDM *myParser, char *visPvExpStr, char *minVisString, char *maxVisString)
+void parserClass::addVisibilityCalc(myParserEDM *myParser, char *visPvExpStr, 
+                                    char *minVisString, char *maxVisString)
 {
   return; // TODO: unsupported
 
@@ -350,9 +352,11 @@ void parserClass::addVisibilityCalc(myParserEDM *myParser, char *visPvExpStr, ch
     myParser->Qt_handleString("visibility", "string", "Calc");
   }
   if(strlen(minVisString) > 0) sprintf(visibilityCalc, "A>%s", minVisString);
-  if((strlen(maxVisString) > 0) && (strlen(minVisString) > 0)) strcat(visibilityCalc, "&&A<=");
+  if((strlen(maxVisString) > 0) && (strlen(minVisString) > 0)) {
+    strcat(visibilityCalc, "&&A<=");  }
   if(strlen(maxVisString) > 0) strcat(visibilityCalc, maxVisString);
-  if(strlen(visibilityCalc) > 0) myParser->Qt_handleString("visibilityCalc", "string", visibilityCalc);
+  if(strlen(visibilityCalc) > 0) { 
+    myParser->Qt_handleString("visibilityCalc", "string", visibilityCalc); }
 }
 
 void parserClass::addAlarmPV(myParserEDM *myParser, char *alarmPvExpStr) {
@@ -390,9 +394,11 @@ int parserClass::loadHeader (myParserEDM *myParser, FILE *f)  {
   tag.loadR("font", 63, defaultFontTag);
   tag.loadR("fontAlign", 3, alignEnumStr, alignEnum, &defaultAlignment, &left);
   tag.loadR("ctlFont", 63, defaultCtlFontTag);
-  tag.loadR("ctlFontAlign", 3, alignEnumStr, alignEnum, &defaultCtlAlignment, &left);
+  tag.loadR("ctlFontAlign", 3, alignEnumStr, alignEnum, &defaultCtlAlignment, 
+            &left);
   tag.loadR("btnFont", 63, defaultBtnFontTag);
-  tag.loadR("btnFontAlign", 3, alignEnumStr, alignEnum, &defaultBtnAlignment, &left);
+  tag.loadR("btnFontAlign", 3, alignEnumStr, alignEnum, &defaultBtnAlignment, 
+            &left);
   tag.loadR("fgColor", ci, &fgColor);
   tag.loadR("bgColor", ci, &bgColor);
   tag.loadR("textColor", ci, &defaultTextFgColor);
@@ -409,8 +415,9 @@ int parserClass::loadHeader (myParserEDM *myParser, FILE *f)  {
   tag.loadR("orthoLineDraw", &orthogonal, &zero);
   tag.loadR("pvType", 15, defaultPvType, emptyStr);
   tag.loadR("disableScroll", &disableScroll, &zero);
-  tag.loadR("pixmapFlag", 3, pixmapEnumStr, pixmapEnum, &bgPixmapFlag, &perEnvVar);
-  tag.loadR("templateParams", AWC_MAXTMPLPARAMS, AWC_TMPLPARAMSIZE+1, (char *) paramValue, &numParamValues, emptyStr);
+  tag.loadR("pixmapFlag",3,pixmapEnumStr, pixmapEnum,&bgPixmapFlag, &perEnvVar);
+  tag.loadR("templateParams", AWC_MAXTMPLPARAMS, AWC_TMPLPARAMSIZE+1, 
+            (char *) paramValue, &numParamValues, emptyStr);
   tag.loadR("templateInfo", AWC_MAXTEMPLINFO, (char *) templInfo, emptyStr);
   tag.loadR("endScreenProperties");
 
@@ -444,7 +451,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
 
   loadHeader(myParser, f);
 
-  myParser->writeStyleSheet(rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256);
+  myParser->writeStyleSheet(rgb[bgColor].r/256, rgb[bgColor].g/256,
+                            rgb[bgColor].b/256);
   myParser->Qt_writeOpenTag("widget", "QWidget", "centralWidget");
 
   // read file and process each leading keyword
@@ -472,35 +480,57 @@ int parserClass::loadFile (myParserEDM *myParser) {
       //printf("objName = [%s]\n", objName);
 
       if (strcmp(objName,  "xyGraphClass")  == 0) activeClass = xyGraph;
-      else if (strcmp(objName, "activeLineClass") == 0) activeClass = activeLine;
-      else if (strcmp(objName,  "activePipClass")  == 0) activeClass = activePip;
-      else if (strcmp(objName,  "activeRectangleClass")  == 0) activeClass = activeRectangle;
-      else if (strcmp(objName, "activeCircleClass") == 0) activeClass = activeCircle;
+      else if (strcmp(objName, "activeLineClass") == 0) {
+        activeClass = activeLine; }
+      else if (strcmp(objName,  "activePipClass")  == 0) {
+        activeClass = activePip; }
+      else if (strcmp(objName,  "activeRectangleClass")  == 0) {
+        activeClass = activeRectangle;}
+      else if (strcmp(objName, "activeCircleClass") == 0) {
+        activeClass = activeCircle; }
       else if (strcmp(objName, "activeArcClass") == 0) activeClass = activeArc;
-      else if (strcmp(objName, "activeXTextClass") == 0) activeClass = activeXText;
-      else if (strcmp(objName, "activeXTextDspClass") == 0) activeClass = activeXTextDsp;
-      else if (strcmp(objName, "activeXTextDspClass:noedit") == 0) activeClass = activeXTextDsp;  // Zai
-      else if (strcmp(objName, "TextupdateClass") == 0) activeClass = TextUpdate; // Zai
-      else if (strcmp(objName, "TextentryClass") == 0) activeClass = TextEntry; // Zai
+      else if (strcmp(objName, "activeXTextClass") == 0) {
+        activeClass = activeXText; }
+      else if (strcmp(objName, "activeXTextDspClass") == 0) {
+        activeClass = activeXTextDsp; }
+      else if (strcmp(objName, "activeXTextDspClass:noedit") == 0) {
+        activeClass = activeXTextDsp; } // Zai
+        else if (strcmp(objName, "TextupdateClass") == 0) {
+          activeClass = TextUpdate; } // Zai 
+        else if (strcmp(objName, "TextentryClass") == 0) {
+          activeClass = TextEntry;} // Zai
       else if (strcmp(objName, "ByteClass") == 0) activeClass = Byte; // Zai
-      else if (strcmp(objName, "activeMeterClass") == 0) activeClass = activeMeter;
+      else if (strcmp(objName, "activeMeterClass")==0) activeClass=activeMeter;
       else if (strcmp(objName, "activeBarClass") == 0) activeClass = activeBar;
-      else if (strcmp(objName, "activeMessageBoxClass") == 0) activeClass = activeMessageBox;
-      else if (strcmp(objName, "activeMotifSliderClass") == 0) activeClass = activeMotifSlider;
-      else if (strcmp(objName, "activeButtonClass") == 0) activeClass = activeButton;
-      else if (strcmp(objName, "activeMenuButtonClass") == 0) activeClass = activeMenuButton;
-      else if (strcmp(objName, "activeRadioButtonClass") == 0) activeClass = activeRadioButton;
-      else if (strcmp(objName, "activeChoiceButtonClass") == 0) activeClass = activeChoiceButton;
-      else if (strcmp(objName, "activeMessageButtonClass") == 0)  activeClass = activeMessageButton;
-      else if (strcmp(objName, "activeExitButtonClass") == 0) activeClass = activeExitButton;
-      else if (strcmp(objName, "shellCmdClass") == 0) activeClass = shellCmdButton;
-      else if (strcmp(objName, "relatedDisplayClass") == 0)  activeClass = relatedDisplay;
-      else if (strcmp(objName, "activeGroupClass") == 0)  activeClass = activeGroup;
-      else if (strcmp(objName, "activePngClass") == 0) activeClass = activePngImage;
+      else if (strcmp(objName, "activeMessageBoxClass") == 0) {
+        activeClass = activeMessageBox; }
+      else if (strcmp(objName, "activeMotifSliderClass") == 0) {
+        activeClass = activeMotifSlider; }
+      else if (strcmp(objName, "activeButtonClass") == 0) {
+        activeClass = activeButton; }
+      else if (strcmp(objName, "activeMenuButtonClass") == 0) {
+        activeClass = activeMenuButton;}
+      else if (strcmp(objName, "activeRadioButtonClass") == 0) {
+        activeClass = activeRadioButton; }
+      else if (strcmp(objName, "activeChoiceButtonClass") == 0) {
+        activeClass = activeChoiceButton; }
+      else if (strcmp(objName, "activeMessageButtonClass") == 0) {
+        activeClass = activeMessageButton; }
+      else if (strcmp(objName, "activeExitButtonClass") == 0) { 
+        activeClass = activeExitButton; }
+      else if (strcmp(objName, "shellCmdClass") == 0) { 
+        activeClass = shellCmdButton; }
+      else if (strcmp(objName, "relatedDisplayClass") == 0) {
+        activeClass = relatedDisplay; }
+      else if (strcmp(objName, "activeGroupClass") == 0) {
+        activeClass = activeGroup; }
+      else if (strcmp(objName, "activePngClass") == 0) {
+        activeClass = activePngImage; }
       else {
         // Discard all content up to "endObjectProperties"
 
-        fprintf(stderr, "Line %-d, Error creating object \"%s\"\n", tag.line(), objName);
+        fprintf(stderr, "Line %-d, Error creating object \"%s\"\n", tag.line(),
+                objName);
         gotOne = tag.getName(tagName, 255, f); // Zai
         continue;                                // Zai
 
@@ -518,7 +548,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
 
       switch (activeClass) {
 
-        //***************************************************************************************************************
+        //********************************************************************
       case xyGraph:
 
         {
@@ -556,36 +586,44 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("font", 63, fontTag);
 
           //tag.loadR("# Operating Modes");
-          tag.loadR("plotMode", 2, plotModeEnumStr, plotModeEnum, &plotMode, &plotModePlotNPtsAndStop);
+          tag.loadR("plotMode", 2, plotModeEnumStr, plotModeEnum, &plotMode, 
+                    &plotModePlotNPtsAndStop);
           tag.loadR("nPts", &count);
           tag.loadR("updateTimerMs", &updateTimerValue, &zero);
           tag.loadR("traceCtlPv", &traceCtlPvExpStr, emptyStr);
           tag.loadR("triggerPv", &trigPvExpStr, emptyStr);
           tag.loadR("resetPv", &resetPvExpStr, emptyStr);
-          tag.loadR("resetMode", 2, resetModeEnumStr, resetModeEnum, &resetMode, &resetModeIfNotZero);
+          tag.loadR("resetMode", 2, resetModeEnumStr, resetModeEnum, &resetMode,
+                    &resetModeIfNotZero);
 
           //tag.loadR("# X axis properties");
           tag.loadR("showXAxis", &xAxis, &zero);
-          tag.loadR("xAxisStyle", 4, xAxisStyleEnumStr, xAxisStyleEnum, &xAxisStyle, &xAxisStyleLinear);
-          tag.loadR("xAxisSrc", 3, axisSrcEnumStr, axisSrcEnum, &xAxisSource, &axisSrcFromPv);
+          tag.loadR("xAxisStyle", 4, xAxisStyleEnumStr, xAxisStyleEnum, 
+                    &xAxisStyle, &xAxisStyleLinear);
+          tag.loadR("xAxisSrc", 3, axisSrcEnumStr, axisSrcEnum, &xAxisSource, 
+                    &axisSrcFromPv);
           tag.loadR("xMin", &xMin);
           tag.loadR("xMax", &xMax);
-          tag.loadR("xAxisTimeFormat", 2, timeFormatEnumStr, timeFormatEnum, &xAxisTimeFormat, &timeFormatSec);
+          tag.loadR("xAxisTimeFormat", 2, timeFormatEnumStr, timeFormatEnum, 
+                    &xAxisTimeFormat, &timeFormatSec);
           tag.loadR("xLabelIntervals", &xNumLabelIntervals);
           tag.loadR("xMajorsPerLabel", &xNumMajorPerLabel);
           tag.loadR("xMinorsPerMajor", &xNumMinorPerMajor);
           tag.loadR("xShowLabelGrid", &xLabelGrid, &zero);
           tag.loadR("xShowMajorGrid", &xMajorGrid, &zero);
           tag.loadR("xShowMinorGrid", &xMinorGrid, &zero);
-          tag.loadR("xLableFormat", 2, annoFormatEnumStr, annoFormatEnum, &xAnnotationFormat, &annoFormatF);
+          tag.loadR("xLableFormat", 2, annoFormatEnumStr, annoFormatEnum, 
+                    &xAnnotationFormat, &annoFormatF);
           tag.loadR("xLablePrecision", &xAnnotationPrecision);
           tag.loadR("xUserSpecScaleDiv", &xGridMode, &zero);
           tag.loadR("xAxisSmoothing", &xAxisSmoothing, &zero);
 
           //tag.loadR("# Y axis properties");
           tag.loadR("showYAxis", &y1Axis[0], &zero);
-          tag.loadR("yAxisStyle", 2, yAxisStyleEnumStr, yAxisStyleEnum, &y1AxisStyle[0], &yAxisStyleLinear);
-          tag.loadR("yAxisSrc", 3, axisSrcEnumStr, axisSrcEnum, &y1AxisSource[0], &axisSrcFromPv);
+          tag.loadR("yAxisStyle", 2, yAxisStyleEnumStr, yAxisStyleEnum, 
+                    &y1AxisStyle[0], &yAxisStyleLinear);
+          tag.loadR("yAxisSrc", 3, axisSrcEnumStr, axisSrcEnum, 
+                    &y1AxisSource[0], &axisSrcFromPv);
           tag.loadR("yMin", &y1Min[0]);
           tag.loadR("yMax", &y1Max[0]);
           tag.loadR("yLabelIntervals", &y1NumLabelIntervals[0]);
@@ -594,15 +632,18 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("yShowLabelGrid", &y1LabelGrid[0], &zero);
           tag.loadR("yShowMajorGrid", &y1MajorGrid[0], &zero);
           tag.loadR("yShowMinorGrid", &y1MinorGrid[0], &zero);
-          tag.loadR("yAxisFormat", 2, annoFormatEnumStr, annoFormatEnum, &y1AnnotationFormat[0], &annoFormatF);
+          tag.loadR("yAxisFormat", 2, annoFormatEnumStr, annoFormatEnum, 
+                    &y1AnnotationFormat[0], &annoFormatF);
           tag.loadR("yAxisPrecision", &y1AnnotationPrecision[0]);
           tag.loadR("yUserSpecScaleDiv", &y1GridMode[0], &zero);
           tag.loadR("yAxisSmoothing", &y1AxisSmoothing[0], &zero);
 
           //tag.loadR("# Y2 axis properties");
           tag.loadR("showY2Axis", &y1Axis[1], &zero);
-          tag.loadR("y2AxisStyle", 2, yAxisStyleEnumStr, yAxisStyleEnum, &y1AxisStyle[1], &yAxisStyleLinear);
-          tag.loadR("y2AxisSrc", 3, axisSrcEnumStr, axisSrcEnum, &y1AxisSource[1], &axisSrcFromPv);
+          tag.loadR("y2AxisStyle", 2, yAxisStyleEnumStr, yAxisStyleEnum, 
+                    &y1AxisStyle[1], &yAxisStyleLinear);
+          tag.loadR("y2AxisSrc", 3, axisSrcEnumStr, axisSrcEnum, 
+                    &y1AxisSource[1], &axisSrcFromPv);
           tag.loadR("y2Min", &y1Min[1]);
           tag.loadR("y2Max", &y1Max[1]);
           tag.loadR("y2LabelIntervals", &y1NumLabelIntervals[1]);
@@ -611,7 +652,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("y2ShowLabelGrid", &y1LabelGrid[1], &zero);
           tag.loadR("y2ShowMajorGrid", &y1MajorGrid[1], &zero);
           tag.loadR("y2ShowMinorGrid", &y1MinorGrid[1], &zero);
-          tag.loadR("y2AxisFormat", 2, annoFormatEnumStr, annoFormatEnum, &y1AnnotationFormat[1], &annoFormatF);
+          tag.loadR("y2AxisFormat", 2, annoFormatEnumStr, annoFormatEnum, 
+                    &y1AnnotationFormat[1], &annoFormatF);
           tag.loadR("y2AxisPrecision", &y1AnnotationPrecision[1]);
           tag.loadR("y2UserSpecScaleDiv", &y1GridMode[1], &zero);
           tag.loadR("y2AxisSmoothing", &y1AxisSmoothing[1], &zero);
@@ -622,12 +664,17 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("xPv", XYGC_K_MAX_TRACES, xPvExpStr, &n, emptyStr);
           tag.loadR("yPv", XYGC_K_MAX_TRACES, yPvExpStr, &n, emptyStr);
           tag.loadR("nPv", XYGC_K_MAX_TRACES, nPvExpStr, &n, emptyStr);
-          tag.loadR("plotStyle", 4, plotStyleEnumStr, plotStyleEnum, XYGC_K_MAX_TRACES, plotStyle, &n, &plotStyleLine);
+          tag.loadR("plotStyle", 4, plotStyleEnumStr, plotStyleEnum, 
+                    XYGC_K_MAX_TRACES, plotStyle, &n, &plotStyleLine);
           tag.loadR("lineThickness", XYGC_K_MAX_TRACES, xylineThk, &n, &one);
-          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, XYGC_K_MAX_TRACES, xylineStyle, &n, &styleSolid);
-          tag.loadR("plotUpdateMode", 5, updateModeEnumStr, updateModeEnum, XYGC_K_MAX_TRACES, plotUpdateMode, &n, &updateModexAndY);
-          tag.loadR("plotSymbolType", 4, symbolEnumStr, symbolEnum, XYGC_K_MAX_TRACES, plotSymbolType, &n, &symbolNone);
-          tag.loadR("opMode", 2, opModeEnumStr, opModeEnum, XYGC_K_MAX_TRACES, opMode, &n, &opModeScope);
+          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, XYGC_K_MAX_TRACES, 
+                    xylineStyle, &n, &styleSolid);
+          tag.loadR("plotUpdateMode", 5, updateModeEnumStr, updateModeEnum, 
+                    XYGC_K_MAX_TRACES, plotUpdateMode, &n, &updateModexAndY);
+          tag.loadR("plotSymbolType", 4, symbolEnumStr, symbolEnum, 
+                    XYGC_K_MAX_TRACES, plotSymbolType, &n, &symbolNone);
+          tag.loadR("opMode", 2, opModeEnumStr, opModeEnum, XYGC_K_MAX_TRACES, 
+                    opMode, &n, &opModeScope);
           tag.loadR("useY2Axis", XYGC_K_MAX_TRACES, y2Scale, &n, &zero);
           tag.loadR("xSigned", XYGC_K_MAX_TRACES, xSigned, &n, &zero);
           tag.loadR("ySigned", XYGC_K_MAX_TRACES, ySigned, &n, &zero);
@@ -660,17 +707,25 @@ int parserClass::loadFile (myParserEDM *myParser) {
           }
           myParser->writeRectangleDimensions(x, y, w, h);
 
-          myParser->Qt_setColorForeground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255); //Background color is not working
-          myParser->Qt_setColorGrid("", rgb[gridColor].r/256, rgb[gridColor].g/256, rgb[gridColor].b/256, 255);
-          myParser->Qt_setColorScale("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
+          myParser->Qt_setColorForeground("", rgb[bgColor].r/256, 
+                                          rgb[bgColor].g/256, 
+                                          rgb[bgColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, 
+                                          rgb[bgColor].g/256,rgb[bgColor].b/256,
+                                          255); //Background color not working
+          myParser->Qt_setColorGrid("", rgb[gridColor].r/256, 
+                                    rgb[gridColor].g/256, rgb[gridColor].b/256,
+                                    255);
+          myParser->Qt_setColorScale("", rgb[fgColor].r/256, rgb[fgColor].g/256,
+                                     rgb[fgColor].b/256, 255);
 
           myParser-> Qt_handleString("Title", "string", graphTitle.getRaw());
           myParser-> Qt_handleString("TitleX", "string", xLabel.getRaw());
           myParser-> Qt_handleString("TitleY", "string", yLabel.getRaw());
 
           if(!xAxis) myParser->Qt_handleString("XaxisEnabled", "bool", "false");
-          if(!y1Axis[0])  myParser->Qt_handleString("YaxisEnabled", "bool", "false");
+          if(!y1Axis[0]) myParser->Qt_handleString("YaxisEnabled", "bool",
+                                                   "false");
           // add everything for stripplot
           if(stripPlot) {
             char channels[1024] ="\0";
@@ -679,12 +734,15 @@ int parserClass::loadFile (myParserEDM *myParser) {
                 strcat(channels, yPvExpStr[i].getRaw());
                 strcat(channels, ";");
               }
-              myParser->Qt_setColorTrace("", rgb[plotColor[i]].r/256, rgb[plotColor[i]].g/256, rgb[plotColor[i]].b/256, 255, i);
+              myParser->Qt_setColorTrace("", rgb[plotColor[i]].r/256, 
+                                         rgb[plotColor[i]].g/256, 
+                                         rgb[plotColor[i]].b/256, 255, i);
             }
             if(strlen(channels) > 0) channels[strlen(channels)-1] = '\0';
             myParser-> Qt_handleString("channels", "string", channels);
             myParser-> Qt_handleString("XaxisType", "enum", "ValueScale");
-            if(y1AxisStyle[0] == 1) myParser-> Qt_handleString("YaxisType", "enum", "log10");
+            if(y1AxisStyle[0] == 1) myParser-> Qt_handleString("YaxisType", 
+                                                               "enum", "log10");
             myParser-> Qt_handleString("YAxisScaling", "enum", "autoScale");
 
             // add everything for cartesianplot
@@ -693,20 +751,27 @@ int parserClass::loadFile (myParserEDM *myParser) {
             for(int i=0; i<min(n,7); i++) {
               if(opMode[i] == 0) {
                 char channels[200];
-                sprintf(channels, "%s;%s", xPvExpStr[i].getRaw(), yPvExpStr[i].getRaw());
+                sprintf(channels, "%s;%s", xPvExpStr[i].getRaw(),
+                        yPvExpStr[i].getRaw());
                 myParser->Qt_ChannelsXY("", channels, i);
-                if(xylineStyle[i] == 0 || xylineStyle[i] == 2) myParser->Qt_setStyleTrace("", "Lines", i);
+                if (xylineStyle[i] == 0 || xylineStyle[i] == 2) {
+                  myParser->Qt_setStyleTrace("", "Lines", i); }
                 else myParser->Qt_setStyleTrace("", "Dots", i);
-                if(plotSymbolType[i] == 0) myParser->Qt_setSymbolTrace("", "NoSymbol", i);
-                else if(plotSymbolType[i] == 1) myParser->Qt_setSymbolTrace("", "Ellipse", i);
-                else if(plotSymbolType[i] == 2) myParser->Qt_setSymbolTrace("", "Square", i);
+                if (plotSymbolType[i] == 0) {
+                  myParser->Qt_setSymbolTrace("", "NoSymbol", i);  }
+                else if (plotSymbolType[i] == 1) {
+                  myParser->Qt_setSymbolTrace("", "Ellipse", i);  }
+                else if (plotSymbolType[i] == 2) {
+                  myParser->Qt_setSymbolTrace("", "Square", i); }
                 else myParser->Qt_setSymbolTrace("", "Diamond", i);
               }
-              myParser->Qt_setColorTrace("", rgb[plotColor[i]].r/256, rgb[plotColor[i]].g/256, rgb[plotColor[i]].b/256, 255, i);
+              myParser->Qt_setColorTrace("", rgb[plotColor[i]].r/256, 
+                                         rgb[plotColor[i]].g/256, 
+                                         rgb[plotColor[i]].b/256, 255, i);
             }
-            if(y1AxisSource[0] == 0) {
+            if (y1AxisSource[0] == 0) {
               myParser->Qt_handleString("YaxisScaling", "enum", "Channel");
-            } else if(y1AxisSource[0] == 1) {
+            } else if (y1AxisSource[0] == 1) {
               myParser->Qt_handleString("YaxisScaling", "enum", "User");
               sprintf(Limits,"%f;%f", y1Min[0].value(), y1Max[0].value());
               myParser->Qt_handleString("YaxisLimits", "string", Limits);
@@ -714,9 +779,9 @@ int parserClass::loadFile (myParserEDM *myParser) {
               myParser->Qt_handleString("YaxisScaling", "enum", "Auto");
             }
 
-            if(xAxisSource == 0) {
+            if (xAxisSource == 0) {
               myParser->Qt_handleString("XaxisScaling", "enum", "Channel");
-            } else if(xAxisSource == 1) {
+            } else if (xAxisSource == 1) {
               myParser->Qt_handleString("XaxisScaling", "enum", "User");
               sprintf(Limits,"%f;%f", xMin.value(), xMax.value());
               myParser->Qt_handleString("XaxisLimits", "string", Limits);
@@ -724,17 +789,15 @@ int parserClass::loadFile (myParserEDM *myParser) {
               myParser->Qt_handleString("XaxisScaling", "enum", "Auto");
             }
 
-            if(xAxisStyle == 1) myParser-> Qt_handleString("XaxisType", "enum", "log10");
-            if(y1AxisStyle[0] == 1) myParser-> Qt_handleString("YaxisType", "enum", "log10");
-
+            if (xAxisStyle == 1) myParser-> {
+                Qt_handleString("XaxisType", "enum", "log10");  }
+            if (y1AxisStyle[0] == 1) {
+              myParser-> Qt_handleString("YaxisType", "enum", "log10"); }
           }
-
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
-
-
         }
         break;
-        //***************************************************************************************************************
+        //********************************************************************
       case activePip :
         {
           int n;
@@ -753,7 +816,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("bgColor", ci, &bgColor);
           tag.loadR("topShadowColor", ci, &topShadowColor);
           tag.loadR("botShadowColor", ci, &botShadowColor);
-          tag.loadR("displaySource", 3, displaySourceEnumStr, displaySourceEnum, &displaySource, &displaySourceFromPV);
+          tag.loadR("displaySource", 3, displaySourceEnumStr, displaySourceEnum,
+                    &displaySource, &displaySourceFromPV);
           tag.loadR("filePv", &readPvExpStr, emptyStr);
           tag.loadR("labelPv", &labelPvExpStr, emptyStr);
           tag.loadR("file", &fileNameExpStr, emptyStr);
@@ -782,16 +846,18 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->Qt_writeOpenTag("widget", "PyDMEmbeddedDisplay", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
 
-          if(numDsps > 0) {
-            myParser->Qt_handleString("filename", "string", displayFileName[0].getRaw());
-            myParser->Qt_handleString("macro", "string", symbolsExpStr[0].getRaw());
+          if (numDsps > 0) {
+            myParser->Qt_handleString("filename", "string", 
+                                      displayFileName[0].getRaw());
+            myParser->Qt_handleString("macro", "string", 
+                                      symbolsExpStr[0].getRaw());
           }
 
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
         break;
 
-        //***************************************************************************************************************
+        //********************************************************************
       case activeCircle :
 
         {
@@ -812,7 +878,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("fillColor", ci, &fillColor);
           tag.loadR("fillAlarm", &fillColorMode, &zero);
           tag.loadR("lineWidth", &lineWidth, &one);
-          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, &styleSolid);
+          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, 
+                    &styleSolid);
           tag.loadR("alarmPv", &alarmPvExpStr, emptyStr);
           tag.loadR("visPv", &visPvExpStr, emptyStr);
           tag.loadR("visInvert", &visInverted, &zero);
@@ -834,22 +901,23 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_setColorLine("", rgb[lineColor].r/256, rgb[lineColor].g/256, rgb[lineColor].b/256, 255);
           myParser->Qt_setColorForeground("", rgb[fillColor].r/256, rgb[fillColor].g/256, rgb[fillColor].b/256, 255);
-          if(lineStyle == 0) {
+          if (lineStyle == 0) {
             myParser->Qt_handleString("penStyle", "string", "Solid", false);
           } else {
             myParser->Qt_handleString("penStyle", "string", "Dash", false);
           }
-          if(fill) myParser->Qt_handleString("fillstyle", "string", "Filled");
+          if (fill) myParser->Qt_handleString("fillstyle", "string", "Filled");
           else myParser->Qt_handleString("fillstyle", "string", "Outline");
 
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, 
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
 
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
         break;
 
-        //***************************************************************************************************************
+        //*********************************************************************
       case activeArc :
 
         {
@@ -872,7 +940,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("fillColor", ci, &fillColor);
           tag.loadR("fillAlarm", &fillColorMode, &zero);
           tag.loadR("lineWidth", &lineWidth, &one);
-          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, &styleSolid);
+          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, 
+                    &styleSolid);
           tag.loadR("alarmPv", &alarmPvExpStr, emptyStr);
           tag.loadR("visPv", &visPvExpStr, emptyStr);
           tag.loadR("visInvert", &visInverted, &zero);
@@ -880,7 +949,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("visMax", 39, maxVisString, emptyStr);
           tag.loadR("startAngle", &efStartAngle);
           tag.loadR("totalAngle", &efTotalAngle);
-          tag.loadR("fillMode", 2, fillModeEnumStr, fillModeEnum, &fillMode, &fillModeChord);
+          tag.loadR("fillMode", 2, fillModeEnumStr, fillModeEnum, &fillMode, 
+                    &fillModeChord);
           tag.loadR("endObjectProperties");
 
           stat = tag.readTags(f, "endObjectProperties");
@@ -895,9 +965,13 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->Qt_writeOpenTag("widget", "PyDMDrawingArc", widgetName);
           // myParser->Qt_handleString("form", "enum", "caGraphics::Arc");
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_setColorLine("", rgb[lineColor].r/256, rgb[lineColor].g/256, rgb[lineColor].b/256, 255);
-          myParser->Qt_setColorForeground("", rgb[fillColor].r/256, rgb[fillColor].g/256, rgb[fillColor].b/256, 255);
-          if(lineStyle == 0) {
+          myParser->Qt_setColorLine("", rgb[lineColor].r/256, 
+                                    rgb[lineColor].g/256, rgb[lineColor].b/256, 
+                                    255);
+          myParser->Qt_setColorForeground("", rgb[fillColor].r/256,
+                                          rgb[fillColor].g/256,
+                                          rgb[fillColor].b/256, 255);
+          if (lineStyle == 0) {
             myParser->Qt_handleString("penStyle", "string", "Solid", false);
           } else {
             myParser->Qt_handleString("penStyle", "string", "Dash", false);
@@ -915,19 +989,19 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(asc, "%d", totalAngle/64);
           myParser->Qt_handleString("spanAngle", "number", asc);
 
-          if(fill) myParser->Qt_handleString("fillstyle", "string", "Filled");
+          if (fill) myParser->Qt_handleString("fillstyle", "string", "Filled");
           else myParser->Qt_handleString("fillstyle", "string", "Outline");
 
-          myParser->Qt_handleString("channel", "string", visPvExpStr.getRaw(), false);
-
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          myParser->Qt_handleString("channel", "string", visPvExpStr.getRaw(),
+                                    false);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString,
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
-
         }
         break;
 
-        //***************************************************************************************************************
+        //********************************************************************
       case activeLine :
         {
           int i, *xArray, xSize, *yArray, ySize;
@@ -948,14 +1022,15 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("fillColor", ci, &fillColor);
           tag.loadR("fillAlarm", &fillColorMode, &zero);
           tag.loadR("lineWidth", &lineWidth, &one);
-          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, &styleSolid);
+          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle,
+                    &styleSolid);
           tag.loadR("alarmPv", &alarmPvExpStr, emptyStr);
           tag.loadR("visPv", &visPvExpStr, emptyStr);
           tag.loadR("visInvert", &visInverted, &zero);
           tag.loadR("visMin", 39, minVisString, emptyStr);
           tag.loadR("visMax", 39, maxVisString, emptyStr);
           tag.loadR("closePolygon", &closePolygon, &zero);
-          tag.loadR("arrows", 4, arrowsEnumStr, arrowsEnum, &arrows, &arrowsNone);
+          tag.loadR("arrows",4, arrowsEnumStr, arrowsEnum,&arrows, &arrowsNone);
           tag.loadR("numPoints", &numPoints, &zero);
           tag.loadR("xPoints", &xArray, &xSize);
           tag.loadR("yPoints", &yArray, &ySize);
@@ -976,7 +1051,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           char points[LONGSTRING];
           points[0] = '\0';
           for (i=0; i<numPoints; i++) {
-            sprintf(points, "%s%d,%d;", points,  (short) (xArray[i]-x), (short) (yArray[i]-y));
+            sprintf(points, "%s%d,%d;", points, (short) (xArray[i]-x),
+                    (short) (yArray[i]-y));
           }
 
           // ----------------- write the properties to the ui file
@@ -984,21 +1060,23 @@ int parserClass::loadFile (myParserEDM *myParser) {
           // TODO: poly line?
           myParser->Qt_writeOpenTag("widget", "PyDMDrawingLine", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_setColorLine("", rgb[lineColor].r/256, rgb[lineColor].g/256, rgb[lineColor].b/256, 255);
+          myParser->Qt_setColorLine("",rgb[lineColor].r/256,rgb[lineColor].g/256,
+                                    rgb[lineColor].b/256, 255);
 
-          // if(strlen(points) > 0) myParser->Qt_handleString("xyPairs", "string", points);
+          // if(strlen(points) > 0) 
+          //    myParser->Qt_handleString("xyPairs", "string", points);
 
-          myParser->Qt_handleString("channel", "string", visPvExpStr.getRaw(), false);
+          myParser->Qt_handleString("channel", "string", visPvExpStr.getRaw(), 
+                                    false);
 
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, 
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
-
         }
-
         break;
 
-        //***************************************************************************************************************
+        //*********************************************************************
       case activeRectangle :
         {
           tagClass tag;
@@ -1018,7 +1096,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("fillColor", ci, &fillColor);
           tag.loadR("fillAlarm", &fillColorMode, &zero);
           tag.loadR("lineWidth", &lineWidth, &one);
-          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, &styleSolid);
+          tag.loadR("lineStyle", 2, styleEnumStr, styleEnum, &lineStyle, 
+                    &styleSolid);
           tag.loadR("invisible", &invisible, &zero);
           tag.loadR("alarmPv", &alarmPvExpStr, emptyStr);
           tag.loadR("visPv", &visPvExpStr, emptyStr);
@@ -1036,34 +1115,38 @@ int parserClass::loadFile (myParserEDM *myParser) {
 
           // ----------------- write the properties to the ui file
           sprintf(widgetName, "caGraphics_%d", widgetNumber++);
-          myParser->Qt_writeOpenTag("widget", "PyDMDrawingRectangle", widgetName);
+          myParser->Qt_writeOpenTag("widget","PyDMDrawingRectangle", widgetName);
           // myParser->Qt_handleString("form", "enum", "caGraphics::Rectangle");
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->writeOpenProperty("brush", false);
-          myParser->xw->writeOpenTag(QString("brush"), AttrMap("brushstyle", "SolidPattern"));
-          // myParser->Qt_handleString("fillstyle", "enum", (fill) ? "Qt::Filled" : "Qt::Outline");
-          myParser->Qt_setColor(NULL, rgb[fillColor].r/256, rgb[fillColor].g/256, rgb[fillColor].b/256, 255);
+          myParser->xw->writeOpenTag(QString("brush"),
+                                     AttrMap("brushstyle", "SolidPattern"));
+          // myParser->Qt_handleString("fillstyle", "enum", (fill) ? 
+          //              "Qt::Filled" : "Qt::Outline");
+          myParser->Qt_setColor(NULL, rgb[fillColor].r/256, rgb[fillColor].g/256,
+                                rgb[fillColor].b/256, 255);
           myParser->writeCloseTag("brush");
           myParser->writeCloseTag("property");
 
           myParser->writeOpenProperty("penColor", false);
-          myParser->Qt_setColor(NULL, rgb[lineColor].r/256, rgb[lineColor].g/256, rgb[lineColor].b/256, 255);
+          myParser->Qt_setColor(NULL, rgb[lineColor].r/256,rgb[lineColor].g/256,
+                                rgb[lineColor].b/256, 255);
           myParser->writeCloseProperty();
 
-          myParser->writeProperty("penStyle", "enum", (lineStyle == 0) ? "Qt::SolidLine" : "Qt::DashLine", false);
+          myParser->writeProperty("penStyle", "enum", (lineStyle == 0) ? 
+                                  "Qt::SolidLine" : "Qt::DashLine", false);
 
-          myParser->Qt_handleString("channel", "string", visPvExpStr.getRaw(), false);
-
-
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          myParser->Qt_handleString("channel", "string", visPvExpStr.getRaw(),
+                                    false);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, 
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
 
         }
         break;
 
-
-        //***************************************************************************************************************
+        //*******************************************************************
       case activeXText :
         {
 
@@ -1109,29 +1192,35 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->Qt_writeOpenTag("widget", "PyDMLabel", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_handleString("text", "string",  value.getRaw());
-          myParser->Qt_handleString("channel", "string", pvExpStr.getRaw(), false);
+          myParser->Qt_handleString("channel","string",pvExpStr.getRaw(), false);
 
           setFont(myParser, fontTag); // Zai added
-          // Zai                myParser->Qt_handleString("fontScaleMode", "enum",  "WidthAndHeight");
-          if(alignment==0) {
-            myParser->Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter");
-          } else if(alignment==1) {
-            myParser-> Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter");
-          } else if(alignment==2) {
+          // Zai     myParser->Qt_handleString("fontScaleMode", "enum",  
+          //                                   "WidthAndHeight");
+          if (alignment==0) {
+            myParser->Qt_handleString("alignment", "set","Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter");
+          } else if (alignment==1) {
+            myParser-> Qt_handleString("alignment", "set","Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter");
+          } else if (alignment==2) {
             myParser->Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignRight|Qt::AlignVCenter");
           }
-          if(useDisplayBg) alpha = 0; else alpha=255;
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, alpha);
+          if (useDisplayBg) alpha = 0; else alpha=255;
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
+                                          rgb[fgColor].g/256,rgb[fgColor].b/256,
+                                          255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
+                                          rgb[bgColor].g/256,rgb[bgColor].b/256,
+                                          alpha);
 
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString,
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
 
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
         break;
 
-        //***************************************************************************************************************
+        //*********************************************************************
       case Byte :
         // Zai added
         {
@@ -1158,19 +1247,20 @@ int parserClass::loadFile (myParserEDM *myParser) {
           if (!(stat & 1)) {
             printf("%s\n", tag.errMsg());
           }
-
           adjustGeometry(&x, &y);
 
-          if(numBits == 0) //Needed because EDM does not write on edl file if numBits = 16
-            numBits = 16;
+          //Needed because EDM does not write on edl file if numBits = 16
+          if (numBits == 0) numBits = 16;
 
           // ----------------- write the properties to the ui file
           sprintf(widgetName, "caByte_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMByteIndicator", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_handleString("channel", "string", controlPvExpStr.getRaw(), false);
+          myParser->Qt_handleString("channel","string", controlPvExpStr.getRaw(),
+                                    false);
           myParser->Qt_handleString("startBit", "string", "0");
-          myParser->Qt_handleString("endBit", "string", (char*)QString::number(numBits - 1).toStdString().c_str());
+          myParser->Qt_handleString("endBit", "string",
+                      (char*)QString::number(numBits - 1).toStdString().c_str());
           if (w > h){
             myParser->Qt_handleString("direction", "enum", "Right");
           }
@@ -1197,7 +1287,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("w", &w);
           tag.loadR("h", &h);
           tag.loadR("controlPv", &pvExpStr, emptyStr);
-          tag.loadR("format", 7, formatTypeEnumStr, formatTypeEnum, &formatType, &formatTypeDefault);
+          tag.loadR("format", 7, formatTypeEnumStr, formatTypeEnum, &formatType,
+                    &formatTypeDefault);
           tag.loadR("font", 63, fontTag);
           tag.loadR("fontAlign", 3, alignEnumStr, alignEnum, &alignment, &left);
           tag.loadR("fgColor", ci, &fgColor);
@@ -1214,7 +1305,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("fieldLen", 7, fieldLenInfo, emptyStr);
           tag.loadR("nullPv", &svalPvExpStr, emptyStr);
           tag.loadR("nullColor", ci, &index);
-          tag.loadR("nullCondition", 3, nullCondEnumStr, nullCondEnum, &nullDetectMode, &nullCondNullEqCtl);
+          tag.loadR("nullCondition", 3, nullCondEnumStr, nullCondEnum, 
+                    &nullDetectMode, &nullCondNullEqCtl);
           tag.loadR("colorPv", &fgPvExpStr, emptyStr);
           tag.loadR("smartRefresh", &smartRefresh, &zero);
           tag.loadR("useKp", &useKp, &zero);
@@ -1227,13 +1319,15 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("autoSelect", &autoSelect, &zero);
           tag.loadR("updatePvOnDrop", &updatePvOnDrop, &zero);
           tag.loadR("useHexPrefix", &useHexPrefix, &zero);
-          tag.loadR("fileComponent", 3, fileCompEnumStr, fileCompEnum, &fileComponent, &fileCompFullPath);
+          tag.loadR("fileComponent", 3, fileCompEnumStr, fileCompEnum, 
+                    &fileComponent, &fileCompFullPath);
           tag.loadR("dateAsFileName", &dateAsFileName, &zero);
           tag.loadR("showUnits", &showUnits, &zero);
           tag.loadR("useAlarmBorder", &useAlarmBorder, &zero);
           tag.loadR("newPos", &newPositioning, &zero);
           tag.loadR("inputFocusUpdates", &inputFocusUpdatesAllowed, &zero);
-          tag.loadR("objType", 4, objTypeEnumStr, objTypeEnum, &objType, &objTypeUnknown);
+          tag.loadR("objType", 4, objTypeEnumStr, objTypeEnum, &objType
+                    &objTypeUnknown);
           tag.loadR("clipToDspLimits", &clipToDspLimits, &zero);
           tag.loadR("id", 31, id, emptyStr);
           tag.loadR("changeCallback", &changeCallbackFlag, &zero);
@@ -1250,7 +1344,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          if(activeClass == TextUpdate || (activeClass != TextEntry && /* Zai added */!editable)) {
+          if (activeClass == TextUpdate || 
+              (activeClass != TextEntry && /* Zai added */!editable)) {
             sprintf(widgetName, "caLineEdit_%d", widgetNumber++);
             myParser->Qt_writeOpenTag("widget", "PyDMLineEdit", widgetName);
           } else {
@@ -1261,28 +1356,40 @@ int parserClass::loadFile (myParserEDM *myParser) {
             myParser->Qt_writeOpenTag("widget", "PyDMLineEdit", widgetName);
           }
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_handleString("channel", "string", pvExpStr.getRaw(), false);
+          myParser->Qt_handleString("channel","string",pvExpStr.getRaw(), false);
 
           setFont(myParser, fontTag); // Zai added
-          // Zai                myParser->Qt_handleString("fontScaleMode", "enum",  "WidthAndHeight");
-          if(alignment==0) {
-            myParser->Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter");
-          } else if(alignment==1) {
-            myParser-> Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter");
-          } else if(alignment==2) {
-            myParser->Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignRight|Qt::AlignVCenter");
+          //Z myParser->Qt_handleString("fontScaleMode","enum","WidthAndHeight");
+          if (alignment==0) {
+            myParser->Qt_handleString("alignment", "set",
+                     "Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter");
+          } else if (alignment==1) {
+            myParser-> Qt_handleString("alignment", "set",
+                     "Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter");
+          } else if (alignment==2) {
+            myParser->Qt_handleString("alignment", "set",
+                 "Qt::AlignAbsolute|Qt::AlignRight|Qt::AlignVCenter");
           }
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
-          if(showUnits) myParser->Qt_handleString("unitsEnabled", "bool", "false");
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
+                                          rgb[fgColor].g/256, rgb[fgColor].b/256,
+                                          255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
+                                          rgb[bgColor].g/256, rgb[bgColor].b/256,
+                                          255);
+          if (showUnits) myParser->Qt_handleString("unitsEnabled", "bool",
+                                                   "false");
 
           /*
             if (bgColorMode || useAlarmBorder) {
-            myParser->Qt_handleString("colorMode", "enum", "caLineEdit::Alarm_Default");
-            myParser->Qt_handleString("alarmHandling", "enum", "caLineEdit::onBackground");
+            myParser->Qt_handleString("colorMode", "enum", 
+                                      "caLineEdit::Alarm_Default");
+            myParser->Qt_handleString("alarmHandling", "enum", 
+                                      "caLineEdit::onBackground");
             } else if (colorMode) {
-            myParser->Qt_handleString("colorMode", "enum", "caLineEdit::Alarm_Default");
-            myParser->Qt_handleString("alarmHandling", "enum", "caLineEdit::onForeground");
+            myParser->Qt_handleString("colorMode", "enum", 
+                                      "caLineEdit::Alarm_Default");
+            myParser->Qt_handleString("alarmHandling", "enum",
+                                      "caLineEdit::onForeground");
             }
           */
 
@@ -1291,7 +1398,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
         }
         break;
 
-        //***************************************************************************************************************
+        //********************************************************************
       case activeMeter :
 
         {
@@ -1319,7 +1426,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("botShadowColor", ci, &bsColor);
           tag.loadR("readPv", &readPvExpStr, emptyStr);
           tag.loadR("label", 39, literalLabel, emptyStr);
-          tag.loadR("labelType", 3, labelTypeEnumStr, labelTypeEnum, &labelType, &lit);
+          tag.loadR("labelType", 3, labelTypeEnumStr, labelTypeEnum, &labelType,
+                    &lit);
           tag.loadR("trackDelta", &trackDelta, &zero);
           tag.loadR("showScale", &showScale, &zero);
           tag.loadR("scaleFormat", 15, scaleFormat);
@@ -1349,39 +1457,43 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(widgetName, "caCircularGauge_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "caCircularGauge", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(), false);
-          if(scaleLimitsFromDb) {
+          myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(),
+                                    false);
+          if (scaleLimitsFromDb) {
             myParser->Qt_handleString("displayLimits", "enum", "Channel_Limits");
           } else {
             myParser->Qt_handleString("displayLimits", "enum", "User_Limits");
-            myParser->Qt_handleString("minValue", "double", scaleMinExpStr.getRaw());
-            myParser->Qt_handleString("maxValue", "double", scaleMaxExpStr.getRaw());
+            myParser->Qt_handleString("minValue", "double", 
+                                      scaleMinExpStr.getRaw());
+            myParser->Qt_handleString("maxValue", "double", 
+                                      scaleMaxExpStr.getRaw());
           }
-          if(!meterColorMode) {
+          if (!meterColorMode) {
             myParser->Qt_handleString("alarmLimits", "enum", "Channel_Alarms");
           } else {
             myParser->Qt_handleString("alarmLimits", "enum", "User_Alarms");
-            myParser->Qt_handleString("lowError", "double", scaleMinExpStr.getRaw());
-            myParser->Qt_handleString("highError", "double", scaleMaxExpStr.getRaw());
-            myParser->Qt_handleString("lowWarning", "double", scaleMinExpStr.getRaw());
-            myParser->Qt_handleString("highWarning", "double", scaleMaxExpStr.getRaw());
+            myParser->Qt_handleString("lowError", "double",
+                                      scaleMinExpStr.getRaw());
+            myParser->Qt_handleString("highError", "double",
+                                      scaleMaxExpStr.getRaw());
+            myParser->Qt_handleString("lowWarning", "double",
+                                      scaleMinExpStr.getRaw());
+            myParser->Qt_handleString("highWarning", "double",
+                                      scaleMaxExpStr.getRaw());
           }
           char precFormat[80];
           strcpy(precFormat, "%.0f");
-          if(strlen(scalePrecExpStr.getRaw()) < 1) strcpy(precFormat, "%.0f");
-          else if(strlen(scalePrecExpStr.getRaw()) == 1) sprintf(precFormat, "%%.%sf", scalePrecExpStr.getRaw());
-
-
+          if (strlen(scalePrecExpStr.getRaw()) < 1) strcpy(precFormat, "%.0f");
+          else if (strlen(scalePrecExpStr.getRaw()) == 1) {
+            sprintf(precFormat, "%%.%sf", scalePrecExpStr.getRaw());
+          }
           myParser->Qt_handleString("valueFormat", "string",  precFormat);
-
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
         break;
 
-        //***************************************************************************************************************
+        //********************************************************************
       case activeBar :
-
-
         {
           tagClass tag;
           tag.init();
@@ -1402,7 +1514,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("indicatorPv", &readPvExpStr, emptyStr);
           tag.loadR("nullPv", &nullPvExpStr, emptyStr);
           tag.loadR("label", &label, emptyStr);
-          tag.loadR("labelType", 2, labelTypeEnumStr, labelTypeEnum,&labelType, &lit);
+          tag.loadR("labelType", 2, labelTypeEnumStr, labelTypeEnum,&labelType,
+                    &lit);
           tag.loadR("showScale", &showScale, &zero);
           tag.loadR("origin", &barOriginValExpStr, emptyStr);
           tag.loadR("font", 63, fontTag);
@@ -1415,7 +1528,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("min", &readMinExpStr, emptyStr);
           tag.loadR("max", &readMaxExpStr, emptyStr);
           tag.loadR("scaleFormat", 15, scaleFormat);
-          tag.loadR("orientation", 2, orienTypeEnumStr, orienTypeEnum, &horizontal, &horz);
+          tag.loadR("orientation", 2, orienTypeEnumStr, orienTypeEnum,
+                    &horizontal, &horz);
           tag.loadR("endObjectProperties");
 
           stat = tag.readTags(f, "endObjectProperties");
@@ -1429,23 +1543,28 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(widgetName, "caThermoM_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "caThermo", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(), false);
-          myParser->Qt_setColorForeground("", rgb[barColor].r/256, rgb[barColor].g/256, rgb[barColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
-          if(horizontal == 0) {
+          myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(),
+                                    false);
+          myParser->Qt_setColorForeground("", rgb[barColor].r/256,
+                                          rgb[barColor].g/256,
+                                          rgb[barColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
+                                          rgb[bgColor].g/256,
+                                          rgb[bgColor].b/256, 255);
+          if (horizontal == 0) {
             myParser->Qt_handleString("direction", "enum", "Up");
           } else {
             myParser->Qt_handleString("direction", "enum", "Right");
           }
-          if(showScale) {
-            if(horizontal == 0) {
+          if (showScale) {
+            if (horizontal == 0) {
               myParser->Qt_handleString("scalePosition", "enum", "LeftScale");
             } else {
               myParser->Qt_handleString("scalePosition", "enum", "BottomScale");
             }
             myParser->Qt_handleString("look", "enum", "Outline");
           }
-          if(fgColorMode) {
+          if (fgColorMode) {
             myParser->Qt_handleString("colorMode", "enum", "Alarm");
           }
 
@@ -1454,11 +1573,11 @@ int parserClass::loadFile (myParserEDM *myParser) {
 
         break;
 
-        //***************************************************************************************************************
+        //*********************************************************************
       case activeMessageBox :
         break;
 
-        //***************************************************************************************************************
+        //******************************************************************
       case activeMotifSlider :
         {
           char asc[10];
@@ -1482,9 +1601,11 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("increment", &dincrement, &dzero);
           tag.loadR("controlPv", &controlPvName, emptyStr);
           tag.loadR("controlLabel", &controlLabelName, emptyStr);
-          tag.loadR("controlLabelType", 3, labelEnumStr, labelEnum,&controlLabelType, &labelTypeLiteral);
+          tag.loadR("controlLabelType", 3, labelEnumStr, labelEnum,
+                    &controlLabelType, &labelTypeLiteral);
           tag.loadR("font", 63, fontTag);
-          tag.loadR("displayFormat", 3, formatTypeEnumStrM, formatTypeEnumM, &formatType, &formatTypeFfloat);
+          tag.loadR("displayFormat", 3, formatTypeEnumStrM, formatTypeEnumM,
+                    &formatType, &formatTypeFfloat);
           tag.loadR("limitsFromDb", &limitsFromDb, &zero);
           tag.loadR("precision", &efPrecision);
           tag.loadR("scaleMin", &efScaleMin);
@@ -1492,7 +1613,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("showLimits", &showLimits, &zero);
           tag.loadR("showLabel", &showLabel, &zero);
           tag.loadR("showValue", &showValue, &zero);
-          tag.loadR("orientation", 2, orienTypeEnumStr, orienTypeEnum, &orientation,&horz);
+          tag.loadR("orientation", 2, orienTypeEnumStr, orienTypeEnum,
+                    &orientation,&horz);
           tag.loadR("savedValuePv", &savedValuePvName, emptyStr);
           tag.loadR("showSavedValue", &showSavedValue, &zero);
           tag.loadR("endObjectProperties");
@@ -1508,25 +1630,26 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(widgetName, "caSlider_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMSlider", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(), false);
-          if(horizontal == 0) {
+          myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(),
+                                    false);
+          if (horizontal == 0) {
             myParser->Qt_handleString("direction", "enum", "Right");
           } else {
             myParser->Qt_handleString("direction", "enum", "Up");
           }
-          if(showScale) {
-            if(horizontal == 0) {
+          if (showScale) {
+            if (horizontal == 0) {
               myParser->Qt_handleString("scalePosition", "enum", "BottomScale");
             } else {
               myParser->Qt_handleString("scalePosition", "enum", "LeftScale");
             }
           }
-          if(fgColorMode) {
+          if (fgColorMode) {
             myParser->Qt_handleString("colorMode", "enum", "Alarm");
           } else {
             myParser->Qt_handleString("colorMode", "enum", "Default");
           }
-          if(dincrement <= 0.0000000001) dincrement = 0.1;
+          if (dincrement <= 0.0000000001) dincrement = 0.1;
           sprintf(asc, "%f\n", dincrement);
           myParser->Qt_handleString("incrementValue", "double", asc);
 
@@ -1534,7 +1657,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
         }
         break;
 
-        //***************************************************************************************************************
+        //*********************************************************************
       case shellCmdButton :
         {
           int n;
@@ -1586,8 +1709,12 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(widgetName, "caShellCommand_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMShellCommand", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256,
+                                          rgb[fgColor].g/256,
+                                          rgb[fgColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
+                                          rgb[bgColor].g/256,
+                                          rgb[bgColor].b/256, 255);
 
           for(int i=0; i<numCmds; i++) {
             strcat(labels, labelS[i].getRaw());
@@ -1595,20 +1722,18 @@ int parserClass::loadFile (myParserEDM *myParser) {
             strcat(files, shellCommand[i].getRaw());
             strcat(files, ";");
           }
-          if(strlen(files) > 0) files[strlen(files) -1] = '\0';
-          if(strlen(labels) > 0) labels[strlen(labels) -1] = '\0';
+          if (strlen(files) > 0) files[strlen(files) -1] = '\0';
+          if (strlen(labels) > 0) labels[strlen(labels) -1] = '\0';
           myParser->Qt_handleString("files", "string", files);
           myParser->Qt_handleString("labels", "string", labels);
           myParser->Qt_handleString("args", "string", args);
-          myParser->Qt_handleString("label", "string", buttonLabel.getRaw(), false);
-
+          myParser->Qt_handleString("label", "string", buttonLabel.getRaw(),
+                                    false);
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
-
         }
         break;
 
-
-        //***************************************************************************************************************
+        //**************************************************************
       case activeChoiceButton: // Zai added
       case activeRadioButton:
         {
@@ -1634,8 +1759,11 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("botShadowColor", ci, &botShadowColor);
           tag.loadR("controlPv", &controlPvExpStr, emptyStr);
           tag.loadR("font", 63, fontTag);
-          tag.loadR("inconsistentColor", ci, &inconsistentColor);  // Zai added for ChoiceButton
-          tag.loadR("orientation", 2, orienTypeEnumStr, orienTypeEnum, &horizontal, &horz); // Zai added for ChoiceButton
+
+          // Zai added next two lines for ChoiceButton
+          tag.loadR("inconsistentColor", ci, &inconsistentColor); 
+          tag.loadR("orientation", 2, orienTypeEnumStr, orienTypeEnum,
+                    &horizontal, &horz);
           tag.loadR("endObjectProperties");
 
           stat = tag.readTags(f, "endObjectProperties");
@@ -1649,14 +1777,19 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(widgetName, "caChoice_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMEnumComboBox", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
-          myParser->Qt_handleString("channel", "string", controlPvExpStr.getRaw(), false);
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256,
+                                          rgb[fgColor].g/256,
+                                          rgb[fgColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
+                                          rgb[bgColor].g/256,
+                                          rgb[bgColor].b/256, 255);
+          myParser->Qt_handleString("channel", "string",
+                                    controlPvExpStr.getRaw(), false);
           setFont(myParser, fontTag); // Zai added
           /*
           // Zai added
           if (activeClass == activeChoiceButton){
-          if(horizontal == 0) {
+          if (horizontal == 0) {
           myParser->Qt_handleString("stackingMode", "enum", "Row");
           } else {
           myParser->Qt_handleString("stackingMode", "enum", "Column");
@@ -1669,9 +1802,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
         }
         break;
 
-        //***************************************************************************************************************
+        //*******************************************************************
       case activeMenuButton :
-
         {
           tagClass tag;
           tag.init();
@@ -1712,23 +1844,28 @@ int parserClass::loadFile (myParserEDM *myParser) {
           sprintf(widgetName, "caMenu_%d", widgetNumber++);
           // TODO
           // myParser->Qt_writeOpenTag("widget", "QComboBox", widgetName);
-          myParser->Qt_writeOpenTag("widget", "PyDMRelatedDisplayButton", widgetName);
+          myParser->Qt_writeOpenTag("widget", "PyDMRelatedDisplayButton",
+                                    widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           setFont(myParser, fontTag); // Zai added
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
-          myParser->Qt_handleString("channel", "string", controlPvExpStr.getRaw(), false);
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256,
+                                          rgb[fgColor].g/256,
+                                          rgb[fgColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
+                                          rgb[bgColor].g/256,
+                                          rgb[bgColor].b/256, 255);
+          myParser->Qt_handleString("channel", "string",
+                                    controlPvExpStr.getRaw(), false);
           myParser->Qt_handleString("colorMode", "string", "Static");
 
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString,
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
-
-
         break;
 
-        //***************************************************************************************************************
+        //**************************************************************
       case activeMessageButton :
         {
           char label[80];
@@ -1781,27 +1918,33 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->Qt_writeOpenTag("widget", "PyDMPushButton", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           setFont(myParser, fontTag); // Zai added
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[onColor].r/256, rgb[onColor].g/256, rgb[onColor].b/256, 255);
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
+                                          rgb[fgColor].g/256, 
+                                          rgb[fgColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[onColor].r/256, 
+                                          rgb[onColor].g/256, 
+                                          rgb[onColor].b/256, 255);
           myParser->Qt_handleString("channel", "string", destPvExpStringM.getRaw(), false);
           // NOTE: No support for press/release text
-          // myParser->Qt_handleString("pressMessage", "string", sourcePressPvExpString.getRaw());
-          // myParser->Qt_handleString("releaseMessage", "string", sourceReleasePvExpString.getRaw());
+          // myParser->Qt_handleString("pressMessage", "string",
+          //                            sourcePressPvExpString.getRaw());
+          // myParser->Qt_handleString("releaseMessage", "string",
+          //                            sourceReleasePvExpString.getRaw());
           sprintf(label, "%s / %s", onLabel.getRaw(), offLabel.getRaw());
           myParser->Qt_handleString("label", "string", label, false);
 
-          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+          addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, 
+                            maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
-
         }
         break;
 
-        //***************************************************************************************************************
+        //***********************************************************
       case activeExitButton :
         break;
 
-        //***************************************************************************************************************
+        //***********************************************************
       case activeGroup:
         {
           tagClass tag;
@@ -1880,7 +2023,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("displayFileName", maxDsps, displayFileName, &n2, emptyStr);
           tag.loadR("menuLabel", maxDsps, relLabel, &n2, emptyStr);
           tag.loadR("closeAction", maxDsps, closeAction, &n2, &zero);
-          tag.loadR("setPosition", 3, setPosEnumStr, setPosEnum, maxDsps, setPostion,  &n2, &setPosOriginal);
+          tag.loadR("setPosition", 3, setPosEnumStr, setPosEnum, maxDsps, 
+                    setPostion,  &n2, &setPosOriginal);
           tag.loadR("allowDups", maxDsps, allowDups, &n2, &zero);
           tag.loadR("cascade", maxDsps, cascade, &n2, &zero);
           tag.loadR("symbols", maxDsps, symbolsExpStr, &n2, emptyStr);
@@ -1902,38 +2046,44 @@ int parserClass::loadFile (myParserEDM *myParser) {
 
           // ----------------- write the properties to the ui file
           sprintf(widgetName, "caRelatedDisplay_%d", widgetNumber++);
-          myParser->Qt_writeOpenTag("widget", "PyDMRelatedDisplayButton", widgetName);
+          myParser->Qt_writeOpenTag("widget", "PyDMRelatedDisplayButton", 
+                                    widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           setFont(myParser, fontTag); // Zai added
-          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, rgb[fgColor].g/256, rgb[fgColor].b/256, 255);
-          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, rgb[bgColor].g/256, rgb[bgColor].b/256, 255);
+          myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
+                                          rgb[fgColor].g/256, 
+                                          rgb[fgColor].b/256, 255);
+          myParser->Qt_setColorBackground("", rgb[bgColor].r/256, 
+                                          rgb[bgColor].g/256, rgb[bgColor].b/256,
+                                          255);
 
-          for(int i=0; i<numDsps; i++) {
+          for (int i=0; i<numDsps; i++) {
             strcat(files, displayFileName[i].getRaw());
             strcat(files, ";");
             strcat(labels, relLabel[i].getRaw());
             strcat(labels, ";");
             strcat(args, symbolsExpStr[i].getRaw());
             strcat(args, ";");
-            if(replaceSymbols[i] == 0) strcat(remove, "false"); else strcat(remove, "true");
+            if (replaceSymbols[i] == 0) strcat(remove, "false"); 
+            else strcat(remove, "true");
             strcat(remove, ";");
           }
-          if(strlen(files) > 0) files[strlen(files) -1] = '\0';
-          if(strlen(labels) > 0) labels[strlen(labels) -1] = '\0';
-          if(strlen(args) > 0) args[strlen(args) -1] = '\0';
-          if(strlen(remove) > 0) remove[strlen(remove) -1] = '\0';
+          if (strlen(files) > 0) files[strlen(files) -1] = '\0';
+          if (strlen(labels) > 0) labels[strlen(labels) -1] = '\0';
+          if (strlen(args) > 0) args[strlen(args) -1] = '\0';
+          if (strlen(remove) > 0) remove[strlen(remove) -1] = '\0';
           myParser->Qt_handleString("files", "string", files);
           myParser->Qt_handleString("labels", "string", labels);
           myParser->Qt_handleString("args", "string", args);
           myParser->Qt_handleString("removeParent", "string", remove);
-          myParser->Qt_handleString("label", "string", buttonLabel.getRaw(), false);
+          myParser->Qt_handleString("label","string",buttonLabel.getRaw(),false);
           // myParser->Qt_handleString("stackingMode", "enum", "Row");
 
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
         break;
 
-        //***************************************************************************************************************
+        //**************************************************************
       case activePngImage:
         {
           tagClass tag;
@@ -1985,7 +2135,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
       gotOne = tag.getName(tagName, 255, f);
 
     }
-    else if(strcmp(tagName, "endGroup") == 0)
+    else if (strcmp(tagName, "endGroup") == 0)
     {
       tag.loadR("visPv", &visPvExpStr, emptyStr);
       tag.loadR("visInvert", &visInverted, &zero);
@@ -1994,7 +2144,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
 
       stat = tag.readTags(f, "endObjectProperties");
 
-      addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, maxVisString);
+      addVisibilityCalc(myParser,visPvExpStr.getRaw(),minVisString,maxVisString);
 
       if (!(stat & 1)) {
         printf("error message = %s\n", tag.errMsg());
