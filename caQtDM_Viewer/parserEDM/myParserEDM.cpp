@@ -79,8 +79,10 @@ void myParserEDM::openFile(char *outFile)
 
     xw->writeRaw( "<ui version=\"4.0\">" );
     xw->newLine();
-    xw->writeTaggedString( "class", "MainWindow" );
-    xw->writeOpenTag("widget", AttrMap("class", "QMainWindow"), AttrMap("name", "MainWindow"));
+    // xw->writeTaggedString( "class", "MainWindow" );
+    xw->writeTaggedString( "class", "Form" );
+    // xw->writeOpenTag("widget", AttrMap("class", "QMainWindow"), AttrMap("name", "MainWindow"));
+    xw->writeOpenTag("widget", AttrMap("class", "QWidget"), AttrMap("name", "Form"));
 }
 
 void myParserEDM::parseFile(char *inFile){

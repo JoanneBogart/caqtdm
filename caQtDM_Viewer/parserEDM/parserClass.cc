@@ -410,7 +410,7 @@ int parserClass::loadHeader (myParserEDM *myParser, FILE *f)  {
   tag.loadR("ctlBgColor2", ci, &defaultOffsetColor);
   tag.loadR("topShadowColor", ci, &defaultTopShadowColor);
   tag.loadR("botShadowColor", ci, &defaultBotShadowColor);
-  tag.loadR("title", 127, title, emptyStr);
+  tag.loadR("title", 127, title, emptyStr); // (tag,maxlen, dest, default)
   tag.loadR("showGrid", &gridShow, &zero);
   tag.loadR("snapToGrid", &gridActive, &zero);
   tag.loadR("gridSize", &gridSpacing, &ten);
@@ -428,8 +428,13 @@ int parserClass::loadHeader (myParserEDM *myParser, FILE *f)  {
   if (!(stat & 1)) {
     retStat = stat;
   }
-
+  
   myParser->writeRectangleDimensions(x, y, w, h);
+
+  // Maybe should first check that there is something in title
+  myParser->writeOpenProperty("windowTitle");
+  myParser->writeTaggedString("string", title);
+  myParser->writeCloseProperty();
 
   return retStat;
 }
