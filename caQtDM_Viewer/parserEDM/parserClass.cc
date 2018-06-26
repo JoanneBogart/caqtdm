@@ -336,7 +336,8 @@ void parserClass::incLine (void)
 void parserClass::addVisibilityCalc(myParserEDM *myParser, char *visPvExpStr, 
                                     char *minVisString, char *maxVisString)
 {
-  return; // TODO: unsupported
+  return; // TODO: unsupported.
+  // Code for original caqtdm follows
 
   int status;
   char visibilityCalc[100];
@@ -361,9 +362,10 @@ void parserClass::addVisibilityCalc(myParserEDM *myParser, char *visPvExpStr,
 
 void parserClass::addAlarmPV(myParserEDM *myParser, char *alarmPvExpStr) {
   int status;
-  char alarmCalc[100];
+  // Comment out the lines declaring and setting alarmCalc; it's never used
+  // char alarmCalc[100]; 
   char newStr[80];
-  alarmCalc[0] = '\0';
+  // alarmCalc[0] = '\0';
   if (strlen(alarmPvExpStr) > 0) {
     myParser->Qt_extractString(alarmPvExpStr, newStr, &status);
     if (status) {
@@ -789,10 +791,10 @@ int parserClass::loadFile (myParserEDM *myParser) {
               myParser->Qt_handleString("XaxisScaling", "enum", "Auto");
             }
 
-            if (xAxisStyle == 1) myParser-> {
-                Qt_handleString("XaxisType", "enum", "log10");  }
+            if (xAxisStyle == 1)  {
+                myParser->Qt_handleString("XaxisType", "enum", "log10");  }
             if (y1AxisStyle[0] == 1) {
-              myParser-> Qt_handleString("YaxisType", "enum", "log10"); }
+              myParser->Qt_handleString("YaxisType", "enum", "log10"); }
           }
           myParser->Qt_writeCloseTag("widget", widgetName, 0);
         }
@@ -1326,7 +1328,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           tag.loadR("useAlarmBorder", &useAlarmBorder, &zero);
           tag.loadR("newPos", &newPositioning, &zero);
           tag.loadR("inputFocusUpdates", &inputFocusUpdatesAllowed, &zero);
-          tag.loadR("objType", 4, objTypeEnumStr, objTypeEnum, &objType
+          tag.loadR("objType", 4, objTypeEnumStr, objTypeEnum, &objType,
                     &objTypeUnknown);
           tag.loadR("clipToDspLimits", &clipToDspLimits, &zero);
           tag.loadR("id", 31, id, emptyStr);
