@@ -60,6 +60,8 @@ public:
     void Qt_writeCloseTag(char *tag, char *value, int visibilityStatic);
     void Qt_handleString(char *prop, char *tag, const char *value, bool stdset=true);
     void Qt_setColor(char *property, int r, int g, int b, int alpha, bool stdset=true);
+    void Qt_setBrush(char *property, char *style, int r=0, int g=0, int b=0,
+                     int alpha=255, bool stdset=true);
     void Qt_setColorForeground(char *widget, int r, int g, int b, int alpha);
     void Qt_setColorBackground(char *widget, int r, int g, int b, int alpha);
     void Qt_setColorLine(char *widget, int r, int g, int b, int alpha);

@@ -713,13 +713,14 @@ int parserClass::loadFile (myParserEDM *myParser) {
             myParser->Qt_writeOpenTag("widget", "caStripPlot", widgetName);
           }
           myParser->writeRectangleDimensions(x, y, w, h);
-
+          /*
           myParser->Qt_setColorForeground("", rgb[bgColor].r/256, 
                                           rgb[bgColor].g/256, 
                                           rgb[bgColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256, 
                                           rgb[bgColor].g/256,rgb[bgColor].b/256,
                                           255); //Background color not working
+          */
           myParser->Qt_setColorGrid("", rgb[gridColor].r/256, 
                                     rgb[gridColor].g/256, rgb[gridColor].b/256,
                                     255);
@@ -849,7 +850,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caInclude_%d", widgetNumber++);
+          sprintf(widgetName, "pydmEmbedded_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMEmbeddedDisplay", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
 
@@ -902,19 +903,30 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caGraphics_%d", widgetNumber++);
+          sprintf(widgetName, "pydmGraphics_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMDrawingCircle", widgetName);
           // myParser->Qt_handleString("form", "enum", "caGraphics::Circle");
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_setColorLine("", rgb[lineColor].r/256, rgb[lineColor].g/256, rgb[lineColor].b/256, 255);
+          /*
           myParser->Qt_setColorForeground("", rgb[fillColor].r/256, rgb[fillColor].g/256, rgb[fillColor].b/256, 255);
+          */
           if (lineStyle == 0) {
             myParser->Qt_handleString("penStyle", "string", "Solid", false);
           } else {
             myParser->Qt_handleString("penStyle", "string", "Dash", false);
           }
+          /*
           if (fill) myParser->Qt_handleString("fillstyle", "string", "Filled");
           else myParser->Qt_handleString("fillstyle", "string", "Outline");
+          */
+
+          //   I am HERE
+          if (fill) {
+            myParser->Qt_setBrush("brush", "SolidPattern", false);
+          } else {
+            myParser->Qt_setBrush("brush", "NoBrush", false);
+          }
 
           addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString, 
                             maxVisString);
@@ -968,16 +980,18 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caGraphics_%d", widgetNumber++);
+          sprintf(widgetName, "pydmGraphics_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMDrawingArc", widgetName);
           // myParser->Qt_handleString("form", "enum", "caGraphics::Arc");
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_setColorLine("", rgb[lineColor].r/256, 
                                     rgb[lineColor].g/256, rgb[lineColor].b/256, 
                                     255);
+          /*
           myParser->Qt_setColorForeground("", rgb[fillColor].r/256,
                                           rgb[fillColor].g/256,
                                           rgb[fillColor].b/256, 255);
+          */
           if (lineStyle == 0) {
             myParser->Qt_handleString("penStyle", "string", "Solid", false);
           } else {
@@ -1063,7 +1077,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           }
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caPolyLine_%d", widgetNumber++);
+          sprintf(widgetName, "pydmDrawingLine_%d", widgetNumber++);
           // TODO: poly line?
           myParser->Qt_writeOpenTag("widget", "PyDMDrawingLine", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
@@ -1121,7 +1135,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caGraphics_%d", widgetNumber++);
+          sprintf(widgetName, "pydmGraphics_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget","PyDMDrawingRectangle", widgetName);
           // myParser->Qt_handleString("form", "enum", "caGraphics::Rectangle");
           myParser->writeRectangleDimensions(x, y, w, h);
@@ -1195,7 +1209,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caLabel_%d", widgetNumber++);
+          sprintf(widgetName, "pydmLabel_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMLabel", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_handleString("text", "string",  value.getRaw());
@@ -1211,6 +1225,8 @@ int parserClass::loadFile (myParserEDM *myParser) {
           } else if (alignment==2) {
             myParser->Qt_handleString("alignment", "set", "Qt::AlignAbsolute|Qt::AlignRight|Qt::AlignVCenter");
           }
+
+          /*
           if (useDisplayBg) alpha = 0; else alpha=255;
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
                                           rgb[fgColor].g/256,rgb[fgColor].b/256,
@@ -1218,7 +1234,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
                                           rgb[bgColor].g/256,rgb[bgColor].b/256,
                                           alpha);
-
+          */
           addVisibilityCalc(myParser, visPvExpStr.getRaw(), minVisString,
                             maxVisString);
           addAlarmPV(myParser, alarmPvExpStr.getRaw());
@@ -1260,7 +1276,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           if (numBits == 0) numBits = 16;
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caByte_%d", widgetNumber++);
+          sprintf(widgetName, "pydmByte_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMByteIndicator", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_handleString("channel","string", controlPvExpStr.getRaw(),
@@ -1353,10 +1369,10 @@ int parserClass::loadFile (myParserEDM *myParser) {
           // ----------------- write the properties to the ui file
           if (activeClass == TextUpdate || 
               (activeClass != TextEntry && /* Zai added */!editable)) {
-            sprintf(widgetName, "caLineEdit_%d", widgetNumber++);
+            sprintf(widgetName, "pydmLineEdit_%d", widgetNumber++);
             myParser->Qt_writeOpenTag("widget", "PyDMLineEdit", widgetName);
           } else {
-            sprintf(widgetName, "caTextEntry_%d", widgetNumber++);
+            sprintf(widgetName, "pydmLineEdit_%d", widgetNumber++);
             // myParser->Qt_writeOpenTag("widget", "PyDMLineEdit", widgetName);
             // TODO: no text entry?
             //myParser->Qt_writeOpenTag("widget", "QTextEdit", widgetName);
@@ -1377,12 +1393,14 @@ int parserClass::loadFile (myParserEDM *myParser) {
             myParser->Qt_handleString("alignment", "set",
                  "Qt::AlignAbsolute|Qt::AlignRight|Qt::AlignVCenter");
           }
+          /*
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
                                           rgb[fgColor].g/256, rgb[fgColor].b/256,
                                           255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
                                           rgb[bgColor].g/256, rgb[bgColor].b/256,
                                           255);
+          */
           if (showUnits) myParser->Qt_handleString("unitsEnabled", "bool",
                                                    "false");
 
@@ -1552,12 +1570,14 @@ int parserClass::loadFile (myParserEDM *myParser) {
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(),
                                     false);
+          /*
           myParser->Qt_setColorForeground("", rgb[barColor].r/256,
                                           rgb[barColor].g/256,
                                           rgb[barColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
                                           rgb[bgColor].g/256,
                                           rgb[bgColor].b/256, 255);
+          */
           if (horizontal == 0) {
             myParser->Qt_handleString("direction", "enum", "Up");
           } else {
@@ -1634,16 +1654,20 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caSlider_%d", widgetNumber++);
+          sprintf(widgetName, "pydmSlider_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMSlider", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_handleString("channel", "string", readPvExpStr.getRaw(),
                                     false);
+
+          /*
           if (horizontal == 0) {
             myParser->Qt_handleString("direction", "enum", "Right");
           } else {
             myParser->Qt_handleString("direction", "enum", "Up");
           }
+          */
+          myParser->Qt_handleString("orientation", "string", orienTypeEnumStr[horizontal]);
           if (showScale) {
             if (horizontal == 0) {
               myParser->Qt_handleString("scalePosition", "enum", "BottomScale");
@@ -1651,11 +1675,13 @@ int parserClass::loadFile (myParserEDM *myParser) {
               myParser->Qt_handleString("scalePosition", "enum", "LeftScale");
             }
           }
+          /*
           if (fgColorMode) {
             myParser->Qt_handleString("colorMode", "enum", "Alarm");
           } else {
             myParser->Qt_handleString("colorMode", "enum", "Default");
           }
+          */
           if (dincrement <= 0.0000000001) dincrement = 0.1;
           sprintf(asc, "%f\n", dincrement);
           myParser->Qt_handleString("incrementValue", "double", asc);
@@ -1713,16 +1739,17 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caShellCommand_%d", widgetNumber++);
+          sprintf(widgetName, "pydmShellCommand_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMShellCommand", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
+          /*
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256,
                                           rgb[fgColor].g/256,
                                           rgb[fgColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
                                           rgb[bgColor].g/256,
                                           rgb[bgColor].b/256, 255);
-
+          */
           for(int i=0; i<numCmds; i++) {
             strcat(labels, labelS[i].getRaw());
             strcat(labels, ";");
@@ -1781,15 +1808,17 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caChoice_%d", widgetNumber++);
+          sprintf(widgetName, "pydmEnumCombo_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMEnumComboBox", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
+          /*
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256,
                                           rgb[fgColor].g/256,
                                           rgb[fgColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
                                           rgb[bgColor].g/256,
                                           rgb[bgColor].b/256, 255);
+          */
           myParser->Qt_handleString("channel", "string",
                                     controlPvExpStr.getRaw(), false);
           setFont(myParser, fontTag); // Zai added
@@ -1848,19 +1877,21 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caMenu_%d", widgetNumber++);
+          sprintf(widgetName, "pydmRelatedDisplay_%d", widgetNumber++);
           // TODO
           // myParser->Qt_writeOpenTag("widget", "QComboBox", widgetName);
           myParser->Qt_writeOpenTag("widget", "PyDMRelatedDisplayButton",
                                     widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           setFont(myParser, fontTag); // Zai added
+          /*
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256,
                                           rgb[fgColor].g/256,
                                           rgb[fgColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256,
                                           rgb[bgColor].g/256,
                                           rgb[bgColor].b/256, 255);
+          */
           myParser->Qt_handleString("channel", "string",
                                     controlPvExpStr.getRaw(), false);
           myParser->Qt_handleString("colorMode", "string", "Static");
@@ -1921,16 +1952,18 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caMessageButton_%d", widgetNumber++);
+          sprintf(widgetName, "pydmPushButton_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMPushButton", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           setFont(myParser, fontTag); // Zai added
+          /*
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
                                           rgb[fgColor].g/256, 
                                           rgb[fgColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[onColor].r/256, 
                                           rgb[onColor].g/256, 
                                           rgb[onColor].b/256, 255);
+          */
           myParser->Qt_handleString("channel", "string", destPvExpStringM.getRaw(), false);
           // NOTE: No support for press/release text
           // myParser->Qt_handleString("pressMessage", "string",
@@ -1985,7 +2018,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           g.h = h;
 
           // ----------------- write the properties to the ui file
-          sprintf(g.name, "caFrame_%d", widgetNumber++);
+          sprintf(g.name, "QFrame_%d", widgetNumber++);
 
           myParser->Qt_writeOpenTag("widget", "QFrame", g.name);
 
@@ -2052,18 +2085,19 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "caRelatedDisplay_%d", widgetNumber++);
+          sprintf(widgetName, "pydmRelatedDisplay_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMRelatedDisplayButton", 
                                     widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           setFont(myParser, fontTag); // Zai added
+          /*
           myParser->Qt_setColorForeground("", rgb[fgColor].r/256, 
                                           rgb[fgColor].g/256, 
                                           rgb[fgColor].b/256, 255);
           myParser->Qt_setColorBackground("", rgb[bgColor].r/256, 
                                           rgb[bgColor].g/256, rgb[bgColor].b/256,
                                           255);
-
+          */
           for (int i=0; i<numDsps; i++) {
             strcat(files, displayFileName[i].getRaw());
             strcat(files, ";");
@@ -2125,7 +2159,7 @@ int parserClass::loadFile (myParserEDM *myParser) {
           adjustGeometry(&x, &y);
 
           // ----------------- write the properties to the ui file
-          sprintf(widgetName, "PyDMDrawingImage_%d", widgetNumber++);
+          sprintf(widgetName, "pydmDrawingImage_%d", widgetNumber++);
           myParser->Qt_writeOpenTag("widget", "PyDMDrawingImage", widgetName);
           myParser->writeRectangleDimensions(x, y, w, h);
           myParser->Qt_handleString("filename", "string", fileName);

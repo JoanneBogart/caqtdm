@@ -130,49 +130,52 @@ void myParserEDM::closeFile()
     xw->writeCloseTag( "widget");
 
     const char *custom_widgets[][3] = {
-        {"pydm.widgets.base", "PyDMWritableWidget", "PyDMWidget"},
-        {"pydm.widgets.baseplot", "BasePlot", "PlotWidget"},
+        {"pydm.widgets.base", "PyDMWritableWidget", "QWidget"},
+        {"pydm.widgets.baseplot", "BasePlot", "QWidget"},
         {"pydm.widgets.byte", "PyDMBitIndicator", "QWidget"},
         {"pydm.widgets.byte", "PyDMByteIndicator", "QWidget"},
         {"pydm.widgets.checkbox", "PyDMCheckbox", "QCheckBox"},
-        {"pydm.widgets.drawing", "PyDMDrawing", "QWidget"},
-        {"pydm.widgets.drawing", "PyDMDrawingArc", "PyDMDrawing"},
+        {"pydm.widgets.drawing", "PyDMDrawingArc", "QWidget"},
+        {"pydm.widgets.drawing", "PyDMDrawingCircle", "QWidget"},
+        {"pydm.widgets.drawing", "PyDMDrawingEllipse", "QWidget"},
+        {"pydm.widgets.drawing", "PyDMDrawingImage", "QWidget"},
+        {"pydm.widgets.drawing", "PyDMDrawingLine", "QWidget"},
+        {"pydm.widgets.drawing", "PyDMDrawingRectangle", "QWidget"},
+        {"pydm.widgets.drawing", "PyDMDrawingTriangle", "QWidget"},
+
+
+
         {"pydm.widgets.drawing", "PyDMDrawingChord", "PyDMDrawingArc"},
-        {"pydm.widgets.drawing", "PyDMDrawingCircle", "PyDMDrawing"},
-        {"pydm.widgets.drawing", "PyDMDrawingEllipse", "PyDMDrawing"},
-        {"pydm.widgets.drawing", "PyDMDrawingImage", "PyDMDrawing"},
-        {"pydm.widgets.drawing", "PyDMDrawingLine", "PyDMDrawing"},
         {"pydm.widgets.drawing", "PyDMDrawingPie", "PyDMDrawingArc"},
-        {"pydm.widgets.drawing", "PyDMDrawingRectangle", "PyDMDrawing"},
-        {"pydm.widgets.drawing", "PyDMDrawingTriangle", "PyDMDrawing"},
         {"pydm.widgets.embedded_display", "PyDMEmbeddedDisplay", "QFrame"},
-        {"pydm.widgets.enum_combo_box", "PyDMEnumComboBox", "QWidget"},
-        {"pydm.widgets.image", "PyDMImageView", "ImageView"},
+        {"pydm.widgets.enum_combo_box", "PyDMEnumComboBox", "QFrame"},
+        {"pydm.widgets.image", "PyDMImageView", "QWidget"},
         {"pydm.widgets.indicator", "PyDMIndicator", "QWidget"},
         {"pydm.widgets.label", "PyDMLabel", "QLabel"},
         {"pydm.widgets.line_edit", "PyDMLineEdit", "QLineEdit"},
         {"pydm.widgets.pushbutton", "PyDMPushButton", "QPushButton"},
-        {"pydm.widgets.qtplugin_base", "PyDMDesignerPlugin", "QtDesigner.QPyDesignerCustomWidgetPlugin"},
+
+        {"pydm.widgets.qtplugin_base", "PyDMDesignerPlugin", "QWidget"},
         {"pydm.widgets.related_display_button", "PyDMRelatedDisplayButton", "QPushButton"},
         {"pydm.widgets.shell_command", "PyDMShellCommand", "QPushButton"},
         {"pydm.widgets.slider", "PyDMSlider", "QFrame"},
         {"pydm.widgets.spinbox", "PyDMSpinbox", "QDoubleSpinBox"},
         {"pydm.widgets.symbol", "PyDMSymbol", "QWidget"},
-        {"pydm.widgets.timeplot", "PyDMTimePlot", "BasePlot"},
-        {"pydm.widgets.timeplot", "TimeAxisItem", "AxisItem"},
-        {"pydm.widgets.timeplot", "TimePlotCurveItem", "PlotCurveItem"},
+        {"pydm.widgets.timeplot", "PyDMTimePlot", "QGraphicsView"},
+        {"pydm.widgets.timeplot", "TimeAxisItem", "QWidget"},
+        {"pydm.widgets.timeplot", "TimePlotCurveItem", "QWidget"},
         {"pydm.widgets.timeplot_curve_editor", "TimePlotCurveEditorDialog", "QDialog"},
-        {"pydm.widgets.timeplot_qtplugin", "PyDMTimePlotExtensionFactory", "QExtensionFactory"},
-        {"pydm.widgets.timeplot_qtplugin", "PyDMTimePlotPlugin", "PyDMDesignerPlugin"},
-        {"pydm.widgets.timeplot_qtplugin", "PyDMTimePlotTaskMenuExtension", "QPyDesignerTaskMenuExtension"},
-        {"pydm.widgets.timeplot_table_model", "PyDMTimePlotCurvesModel", "QAbstractTableModel"},
-        {"pydm.widgets.waveformplot", "PyDMWaveformPlot", "BasePlot"},
-        {"pydm.widgets.waveformplot", "WaveformCurveItem", "PlotCurveItem"},
+        {"pydm.widgets.timeplot_qtplugin", "PyDMTimePlotExtensionFactory", "QWidget"},
+        {"pydm.widgets.timeplot_qtplugin", "PyDMTimePlotPlugin", "QWidget"},
+        {"pydm.widgets.timeplot_qtplugin", "PyDMTimePlotTaskMenuExtension", "QWidget"},
+        {"pydm.widgets.timeplot_table_model", "PyDMTimePlotCurvesModel", "QWidget"},
+        {"pydm.widgets.waveformplot", "PyDMWaveformPlot", "QGraphicsView"},
+        {"pydm.widgets.waveformplot", "WaveformCurveItem", "QWidget"},
         {"pydm.widgets.waveformplot_curve_editor", "WaveformPlotCurveEditorDialog", "QDialog"},
-        {"pydm.widgets.waveformplot_qtplugin", "PyDMWaveformPlotExtensionFactory", "QExtensionFactory"},
-        {"pydm.widgets.waveformplot_qtplugin", "PyDMWaveformPlotPlugin", "PyDMDesignerPlugin"},
-        {"pydm.widgets.waveformplot_qtplugin", "PyDMWaveformPlotTaskMenuExtension", "QPyDesignerTaskMenuExtension"},
-        {"pydm.widgets.waveformplot_table_model", "PyDMWaveformPlotCurvesModel", "QAbstractTableModel"},
+        {"pydm.widgets.waveformplot_qtplugin", "PyDMWaveformPlotExtensionFactory", "QWidget"},
+        {"pydm.widgets.waveformplot_qtplugin", "PyDMWaveformPlotPlugin", "QWidget"},
+        {"pydm.widgets.waveformplot_qtplugin", "PyDMWaveformPlotTaskMenuExtension", "QWidget"},
+        {"pydm.widgets.waveformplot_table_model", "PyDMWaveformPlotCurvesModel", "QWidget"},
         {"pydm.widgets.waveformtable", "PyDMWaveformTable", "QTableWidget"},
         {NULL, NULL, NULL},
     };
@@ -328,6 +331,17 @@ void myParserEDM::Qt_setColor(char *property, int r, int g, int b, int alpha, bo
         writeCloseProperty();
 }
 
+void myParserEDM::Qt_setBrush(char *property, char *style, int r, int g,
+                              int b, int alpha, bool stdset)  {
+  char asc[80];
+  sprintf(asc, "brush brushstyle=\"%s\" ", style);
+  if (property) writeOpenProperty(property, stdset);
+  writeOpenTag(asc, "", "");
+  Qt_setColor(0, r, g, b, alpha);
+  writeCloseTag("brush");
+  if (property) writeCloseProperty();
+}
+/*
 void myParserEDM::Qt_setColorForeground(char *widget, int r, int g, int b, int alpha)
 {
     Q_UNUSED(widget);
@@ -339,7 +353,7 @@ void myParserEDM::Qt_setColorBackground(char *widget, int r, int g, int b, int a
     Q_UNUSED(widget);
     Qt_setColor("background", r, g, b, alpha);
 }
-
+*/
 void myParserEDM::Qt_setColorLine(char *widget, int r, int g, int b, int alpha) {
     Q_UNUSED(widget);
     Qt_setColor("penColor", r, g, b, alpha, false);
